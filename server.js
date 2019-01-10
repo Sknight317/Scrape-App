@@ -1,7 +1,7 @@
 var express = require("express");
 var logger = require("morgan");
 var mongoose = require("mongoose");
-
+mongoose.plugin(schema => { schema.options.usePushEach = true });
 
 
 // Requiring axios and cheerios
@@ -42,14 +42,14 @@ mongoose.connect(MONGODB_URI , { useNewUrlParser: true });
 
 // Routes
 
-// A GET route for scraping the MSN website
+// A GET route for scraping the the Next web website
 app.get("/scrape", function(req, res) {
   // First, we grab the body of the html with axios
   axios.get("https://thenextweb.com/dd/").then(function(response) {
     // Then, we load that into cheerio and save it to $ for a shorthand selector
     var $ = cheerio.load(response.data);
 
-    // Now, we grab every h3 within an div tag, and do the following:
+    // Now, we grab every h2 within an article tag, and do the following:
     $(".story-title").each(function(i, element) {
       // Save an empty result object
       var result = {};
@@ -61,7 +61,7 @@ app.get("/scrape", function(req, res) {
       result.link = $(this)
         .children("a")
         .attr("href");
-      
+
       // Create a new Article using the `result` object built from scraping
       db.Article.create(result)
         .then(function(dbArticle) {
@@ -79,19 +79,52 @@ app.get("/scrape", function(req, res) {
   });
 });
 
+// Route for getting all Articles from the db
+app.get("/articles", function(req, res) {
+  // Grab every document in the Articles collection
+  db.Article.find({})
+    .then(function(dbArticle) {
+      // If we were able to successfully find Articles, send them back to the client
+      res.json(dbArticle);
+    })
+    .catch(function(err) {
+      // If an error occurred, send it to the client
+      res.json(err);
+    });
+});
+
+// Route for grabbing a specific Article by id, populate it with it's note
+app.get("/articles/:id", function(req, res) {
+  // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
+  db.Article.findOne({ _id: req.params.id })
+    // ..and populate all of the notes associated with it
+    .populate("note")
+    .then(function(dbArticle) {
+      // If we were able to successfully find an Article with the given id, send it back to the client
+      res.json(dbArticle);
+    })
+    .catch(function(err) {
+      // If an error occurred, send it to the client
+      res.json(err);
+    });
+});
+
 
 // Route for getting all unsaved articles from the db
-  //this is for the root and uses index.handlebars
+  //this uses index.handlebars
   app.get("/", function (req, res) {
     // Grab every document in the Articles collection
-    db.Article.find({ saved : false }, function (err, result) {
+    db.Article.find({ }, function (err, result) {
       if (err) {
-        console.log("Error in finding unsaved articles: " + err);
+        console.log("Error: " + err);
       }
       else {
         res.render("index", {
+          
           articles: result
+      
         });
+        console.log("Result:" + result);
       }
       });
 });
