@@ -1,7 +1,8 @@
 var express = require("express");
 var logger = require("morgan");
 var mongoose = require("mongoose");
-var exphbs  = require('express-handlebars');
+
+
 
 // Requiring axios and cheerios
 var axios = require("axios");
@@ -24,6 +25,15 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 // Make public a static folder
 app.use(express.static("public"));
+//Set handlebars
+var exphbs  = require('express-handlebars');
+
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
+
+
+var handlebars = require("handlebars");
+handlebars.registerHelper("json", context => JSON.stringify(context));
 
 // If deployed, use the deployed database. Otherwise use the local mongoHeadlines database
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
@@ -35,12 +45,12 @@ mongoose.connect(MONGODB_URI , { useNewUrlParser: true });
 // A GET route for scraping the MSN website
 app.get("/scrape", function(req, res) {
   // First, we grab the body of the html with axios
-  axios.get("https://www.msn.com/en-us/news").then(function(response) {
+  axios.get("https://thenextweb.com/dd/").then(function(response) {
     // Then, we load that into cheerio and save it to $ for a shorthand selector
     var $ = cheerio.load(response.data);
 
-    // Now, we grab every h3 within an article tag, and do the following:
-    $("article h3").each(function(i, element) {
+    // Now, we grab every h3 within an div tag, and do the following:
+    $(".story-title").each(function(i, element) {
       // Save an empty result object
       var result = {};
 
@@ -69,6 +79,21 @@ app.get("/scrape", function(req, res) {
   });
 });
 
+// Route for getting all unsaved articles from the db
+  //this is for the root and uses index.handlebars
+  app.get("/", function (req, res) {
+    // Grab every document in the Articles collection
+    db.Article.find({ saved : false }, function (err, result) {
+      if (err) {
+        console.log("Error in finding unsaved articles: " + err);
+      }
+      else {
+        res.render("index", {
+          articles: result
+        });
+      }
+      });
+});
 // Route for getting all Articles from the db
 app.get("/articles", function(req, res) {
   // Grab every document in the Articles collection
