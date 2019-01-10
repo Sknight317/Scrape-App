@@ -17,17 +17,29 @@
         <a class="nav-link" href="/saved">Saved Articles</a>
       </li>
       <li class="nav-item">
-        <a class="btn btn-danger new-articles">Scrape Articles!</a>
+        <a class="btn btn-danger " id="new-articles">Scrape Articles!</a>
       </li>
       <li class="nav-item">
-        <a class="btn btn-danger clear-articles">Clear Articles!</a>
+        <a class="btn btn-danger " id="clear-articles">Clear Articles!</a>
       </li>
     </ul>
   </div>
 </nav>
       <h1>Note Scraper</h1>
       
-      <div id="articles"></div>
+    
+      {{#each articles}}
+        <div class="card" style="width: 18rem;">
+          <img class="card-img-top" src="..." alt="Card image cap">
+        <div class="card-body">
+        <h5 class="card-title">{{this.title}}</h5>
+        <p class="card-text">{{this.link}}</p>
+        <a href="#" class="btn btn-primary">Save Article</a>
+        </div>
+      </div>
+      {{/each}}
+    
+
       <div id="notes"></div>
-    </div>
+   
     

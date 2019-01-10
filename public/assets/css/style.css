@@ -1,5 +1,11 @@
-body { background-color:purple
+body { background-color:purple;
+  font-family: 'Thasadith', sans-serif;
+  font-weight: 800;
  }
+.navbar-brand {
+  font-family: 'Staatliches', cursive;
+  font-weight: 300;
+}
       #wrapper {
         width: 960px;
         margin-left: auto;
@@ -29,3 +35,4 @@ body { background-color:purple
         height: 200px;
         font-size: 18px;
       }
+  

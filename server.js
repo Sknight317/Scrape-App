@@ -61,7 +61,7 @@ app.get("/scrape", function(req, res) {
       result.link = $(this)
         .children("a")
         .attr("href");
-
+      
       // Create a new Article using the `result` object built from scraping
       db.Article.create(result)
         .then(function(dbArticle) {
@@ -78,6 +78,7 @@ app.get("/scrape", function(req, res) {
     res.send("Scrape Complete");
   });
 });
+
 
 // Route for getting all unsaved articles from the db
   //this is for the root and uses index.handlebars

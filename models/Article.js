@@ -22,6 +22,12 @@ var ArticleSchema = new Schema({
   note: {
     type: Schema.Types.ObjectId,
     ref: "Note"
+  },
+  // Checks if article is saved; is required; automatically defaults to false
+  saved: {
+    type: Boolean,
+    required: true,
+    default: false
   }
 });
 

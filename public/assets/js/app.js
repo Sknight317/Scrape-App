@@ -2,13 +2,13 @@
 $.getJSON("/articles", function(data) {
     console.log(data);
     // For each one
-    for (var i = 0; i < data.length; i++) {
+    // for (var i = 0; i < data.length; i++) {
       // Display the information on the page
-      $("#articles").append("<p data-id='" + 
-      data[i]._id + "'>" +
-      data[i].title + 
-      "<br />" + data[i].link + "</p>");
-    }
+      // $("#articles").append(data) 
+    //   data[i]._id + "'>" +
+    //   data[i].title + 
+    //   "<br />" + data[i].link + "</p>");
+  //   }
   });
   
   
@@ -74,4 +74,25 @@ $.getJSON("/articles", function(data) {
     $("#titleinput").val("");
     $("#bodyinput").val("");
   });
-  
+ $("#new-articles").on("click", function() {
+  $.ajax({
+    method: "GET",
+    url: "/scrape"
+  })
+  .then(function (data) {
+    console.log(data);
+    location.href = ('/');
+})
+  });
+  $("#clear-articles").on("click", function() {
+  // Send the DELETE request.
+  $.ajax("/articles/delete", {
+    type: "DELETE"
+  }).then(
+    function() {
+      console.log("deleted articles", id);
+      // Reload the page to get the updated list
+      location.reload();
+    }
+  );
+    });
