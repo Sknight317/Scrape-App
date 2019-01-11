@@ -95,17 +95,21 @@ app.get("/articles", function(req, res) {
 });
 
 // Route for getting all saved Articles from the db
-app.get("/saved", function(req, res) {
-  // Grab every document in the Articles collection
-  db.Article.find({saved: true})
-    .then(function(dbArticle) {
-      // If we were able to successfully find Articles, send them back to the client
-      res.json(dbArticle);
-    })
-    .catch(function(err) {
-      // If an error occurred, send it to the client
-      res.json(err);
-    });
+app.get("/saved", function (req, res) {
+  
+  db.Article.find({ saved: true }, function (err, result) {
+    
+    if (err) {
+      console.log("Could not get saved articles: " + err);
+    }
+    
+    else {
+      
+      res.render("saved", {
+        articles: result,
+      });
+    }
+  });
 });
 
 // Route for grabbing a specific Article by id, populate it with it's note
@@ -194,21 +198,18 @@ app.post("/articles/:id", function(req, res) {
 });
 
 //Route for updating an article's saved value from false to true
-app.put("/savedarticles/:id", function(req, res) {
- 
-  db.Article.create(req.body)
-    .then(function(dbArticle) {
-      
-      return db.Article.findOneAndUpdate({ _id: req.params.id }, { saved: true });
-    })
-    .then(function(dbArticle) {
-      
-      res.json(dbArticle);
-    })
-    .catch(function(err) {
-      // If an error occurred, send it to the client
-      res.json(err);
-    });
+app.put("/savedarticles/:id", function (req, res) {
+    
+  db.Article.findOneAndUpdate({ _id: req.params.id }, { saved: true })
+  .then(function (result) {
+    console.log("This article has been saved");
+    res.json(result);
+    
+  })
+  .catch(function (err) {
+    res.json(err);
+    console.log("Error saving articles: " + err);
+  });
 });
 // Start the server
 app.listen(PORT, function() {

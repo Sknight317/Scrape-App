@@ -106,11 +106,11 @@ $.getJSON("/articles", function(data) {
     
     $.ajax({
       method: "PUT",
-      url: "/savedarticles" + thisId,
+      url: "/savedarticles/" + thisId,
     })
     .then(
       function() {
-        console.log("saved articles articles", thisId);
+        
         
       })
         });

@@ -43,12 +43,11 @@
           <a target="_blank" href="{{this.link}}" class="card-text">{{this.link}}</a>
           </div>
           <br>
-          <a href="#" class="btn btn-primary" id="save-article" data-id="{{this._id}}">Save Article</a>
+          <div class="delete">
+          <a href="#" class="btn btn-primary" id="delete-article" data-id="{{this._id}}">Delete From Saved</a>
+          <a href="#" class="btn btn-primary" id="notes-article" data-id="{{this._id}}">Article Notes</a>
+          </div>
           </div>
         </div>
       {{/each}}
     </div>
-
-      <div id="notes"></div>
-   
-    
