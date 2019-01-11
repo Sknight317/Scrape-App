@@ -74,7 +74,8 @@ $.getJSON("/articles", function(data) {
     $("#titleinput").val("");
     $("#bodyinput").val("");
   });
- $("#new-articles").on("click", function() {
+  // When you click the scrape articles button
+  $(document).on("click", "#new-articles", function() {
   $.ajax({
     method: "GET",
     url: "/scrape"
@@ -84,15 +85,34 @@ $.getJSON("/articles", function(data) {
     location.href = ('/');
 })
   });
-  $("#clear-articles").on("click", function() {
-  // Send the DELETE request.
-  $.ajax("/articles/delete", {
-    type: "DELETE"
-  }).then(
-    function() {
-      console.log("deleted articles", id);
-      // Reload the page to get the updated list
-      location.reload();
-    }
-  );
-    });
+  // $(document).on("click", "#new-articles", function() {
+  // // Send the DELETE request.
+  // $.ajax("/articles/delete", {
+  //   type: "DELETE"
+  // }).then(
+  //   function() {
+  //     console.log("deleted articles", id);
+  //     // Reload the page to get the updated list
+  //     location.reload();
+  //   }
+  // );
+  //   });
+  //When save article button is clicked
+    $(document).on("click", "#save-article", function() {
+      alert("Clicked!!")
+     // Grab the id associated with the article from the submit button
+    var thisId = $(this).attr("data-id");
+    console.log("article saved  " + thisId);
+    
+    $.ajax({
+      method: "PUT",
+      url: "/savedarticles" + thisId,
+    })
+    .then(
+      function() {
+        console.log("saved articles articles", thisId);
+        
+      })
+        });
+
+    

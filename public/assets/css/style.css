@@ -38,7 +38,7 @@ body { background-color:rgb(223, 222, 222);
 .card {
   box-shadow: 5px 5px 0 rgba(0,0,0,0.2);
   margin: 10px;
-  height: 20rem;
+  height: 25rem;
 }
 #article {
   display: flex;
@@ -46,4 +46,18 @@ body { background-color:rgb(223, 222, 222);
   justify-content: space-evenly;
   
 }
-  
+#summary {
+  font-size: 12px;
+}  
+#sum-div {
+  background-color: aquamarine;
+  height: 90px;
+}
+#link-div {
+  height: 90px;
+  background-color: blueviolet;
+}
+#title-div {
+  height: 90px;
+  background-color: yellow;
+}
