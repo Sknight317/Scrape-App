@@ -211,6 +211,19 @@ app.put("/savedarticles/:id", function (req, res) {
     console.log("Error saving articles: " + err);
   });
 });
+
+app.delete("/articles/delete/:id", function (req, res) {
+  db.Article.findOneAndRemove({ _id: req.params.id })
+  .then(function (result) {
+    console.log("This article has been deleted");
+    res.json(result);
+    
+  })
+  .catch(function (err) {
+    res.json(err);
+    console.log("Error deleting articles: " + err);
+  });
+});
 // Start the server
 app.listen(PORT, function() {
   console.log("App running on port " + PORT + "!");
