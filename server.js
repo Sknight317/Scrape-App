@@ -4,31 +4,31 @@ var mongoose = require("mongoose");
 mongoose.plugin(schema => { schema.options.usePushEach = true });
 
 //lets require/import the mongodb native drivers.
-var mongodb = require('mongodb');
+// var mongodb = require('mongodb');
 
 //We need to work with "MongoClient" interface in order to connect to a mongodb server.
-var MongoClient = mongodb.MongoClient;
+// var MongoClient = mongodb.MongoClient;
 
 // Connection URL. This is where your mongodb server is running.
 
 //(Focus on This Variable)
 // var url = 'mongodb://' + encodeURIComponent('${process.env.USERNAME}')+':'+encodeURIComponent('${process.env.PASSWORD}')+'@ds253094.mlab.com:53094/heroku_7gxhnzfj';    
-var url = process.env.MONGOLAB_URI;
-
+// var url = process.env.MONGOLAB_URI;
+// console.log(url)
 // Use connect method to connect to the Server
-  MongoClient.connect(url, { useNewUrlParser: true }, function (err, db) {
-  if (err) {
-    console.log('Unable to connect to the mongoDB server. Error:', err);
-  } else {
-    console.log('Connection established to', url);
+  // MongoClient.connect(url, { useNewUrlParser: true }, function (err, db) {
+  // if (err) {
+  //   console.log('Unable to connect to the mongoDB server. Error:', err);
+  // } else {
+  //   console.log('Connection established to', url);
     
 
     // do some work here with the database.
 
     //Close connection
-    db.close();
-  }
-});
+//     db.close();
+//   }
+// });
 // Requiring axios and cheerios
 var axios = require("axios");
 var cheerio = require("cheerio");
@@ -62,6 +62,7 @@ handlebars.registerHelper("json", context => JSON.stringify(context));
 
 // If deployed, use the deployed database. Otherwise use the local mongoHeadlines database
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+console.log("connection url: " + MONGODB_URI)
 // Connect to the Mongo DB
 mongoose.connect(MONGODB_URI , { useNewUrlParser: true });
 
