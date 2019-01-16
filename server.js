@@ -38,7 +38,7 @@ var db = require("./models");
 var dotenv = require('dotenv');
 dotenv.config(({path: __dirname + '/.env'}));
 
-var PORT = 3000 || process.env.PORT;
+var PORT = process.env.PORT || 3000;
 
 // Initialize Express
 var app = express();
