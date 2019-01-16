@@ -35,6 +35,8 @@ var cheerio = require("cheerio");
 
 // Require all models
 var db = require("./models");
+var dotenv = require('dotenv');
+dotenv.config(({path: __dirname + '/.env'}));
 
 var PORT = 3000;
 
@@ -61,8 +63,10 @@ var handlebars = require("handlebars");
 handlebars.registerHelper("json", context => JSON.stringify(context));
 
 // If deployed, use the deployed database. Otherwise use the local mongoHeadlines database
+
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 console.log("connection url: " + MONGODB_URI)
+console.log(MONGODB_URI)
 // Connect to the Mongo DB
 mongoose.connect(MONGODB_URI , { useNewUrlParser: true });
 
