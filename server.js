@@ -67,6 +67,7 @@ handlebars.registerHelper("json", context => JSON.stringify(context));
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 console.log("connection url: " + MONGODB_URI)
 console.log(MONGODB_URI)
+mongoose.Promise = Promise;
 // Connect to the Mongo DB
 mongoose.connect(MONGODB_URI , { useNewUrlParser: true });
 
