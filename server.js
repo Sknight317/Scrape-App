@@ -38,7 +38,7 @@ var db = require("./models");
 var dotenv = require('dotenv');
 dotenv.config(({path: __dirname + '/.env'}));
 
-var PORT = process.env.PORT || 3000;
+var port = process.env.PORT || 3000;
 
 // Initialize Express
 var app = express();
@@ -256,6 +256,6 @@ app.delete("/articles/delete/:id", function (req, res) {
   });
 });
 // Start the server
-app.listen(process.env.PORT || 3000, function() {
-  console.log("App running on port " + PORT + "!");
+app.listen(port, "0.0.0.0", function() {
+  console.log("App running on port " + port + "!");
 });
