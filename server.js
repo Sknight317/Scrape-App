@@ -36,8 +36,8 @@ var cheerio = require("cheerio");
 
 // Require all models
 var db = require("./models");
-var dotenv = require('dotenv');
-dotenv.config(({path: __dirname + '/.env'}));
+// var dotenv = require('dotenv');
+// dotenv.config(({path: __dirname + '/.env'}));
 
 var PORT = process.env.PORT || 3000;
 
