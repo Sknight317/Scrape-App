@@ -1,8 +1,9 @@
 var express = require("express");
 var logger = require("morgan");
 var mongoose = require("mongoose");
-mongoose.plugin(schema => { schema.options.usePushEach = true });
-
+// mongoose.plugin(schema => { schema.options.usePushEach = true });
+const URI = require("./config/index");
+require("./models");
 //lets require/import the mongodb native drivers.
 // var mongodb = require('mongodb');
 
@@ -38,7 +39,7 @@ var db = require("./models");
 var dotenv = require('dotenv');
 dotenv.config(({path: __dirname + '/.env'}));
 
-var port = process.env.PORT || 3000;
+var PORT = process.env.PORT || 3000;
 
 // Initialize Express
 var app = express();
@@ -64,13 +65,24 @@ handlebars.registerHelper("json", context => JSON.stringify(context));
 
 // If deployed, use the deployed database. Otherwise use the local mongoHeadlines database
 
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
-console.log("connection url: " + MONGODB_URI)
-console.log(MONGODB_URI)
-mongoose.Promise = Promise;
-// Connect to the Mongo DB
-mongoose.connect(MONGODB_URI , { useNewUrlParser: true });
+// var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+// console.log("connection url: " + MONGODB_URI)
+// console.log(MONGODB_URI)
+// mongoose.Promise = Promise;
 
+// mongoose.connect(MONGODB_URI , { useNewUrlParser: true });
+
+mongoose.connect(process.env.MONGODB_URI || URI, { useNewUrlParser: true });
+
+// When successfully connected
+mongoose.connection.on('connected', () => {
+	console.log('Established Mongoose Default Connection');
+});
+
+// When connection throws an error
+mongoose.connection.on('error', err => {
+	console.log('Mongoose Default Connection Error : ' + err);
+});
 // Routes
 
 // A GET route for scraping the the Next web website
@@ -256,6 +268,6 @@ app.delete("/articles/delete/:id", function (req, res) {
   });
 });
 // Start the server
-app.listen(port, "0.0.0.0", function() {
-  console.log("App running on port " + port + "!");
+app.listen(process.env.PORT || 3000, function() {
+  console.log("App running on port " + PORT + "!");
 });
